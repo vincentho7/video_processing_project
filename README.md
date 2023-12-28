@@ -8,14 +8,17 @@ TASKS Done :
 - G++, tools for C++
 - SDL2 & SDL2_image
 ## SETUPS COMMANDs
-sudo apt-get install libsdl2-2.0 libsdl2-dev
-sudo apt-get install libsdl2-image-2.0-0 libsdl2-image-dev 
+sudo apt-get install libsdl2-2.0 libsdl2-dev;
+
+sudo apt-get install libsdl2-image-2.0-0 libsdl2-image-dev;
 
 ## COMPILATION
 mkdir build; cd build; cmake ..; make
 ## Execution:
 .tvid [--bob][--frame_period] <number>
+
 OR
+
 .tvid [--fps] <number>
 
 During execution : 
