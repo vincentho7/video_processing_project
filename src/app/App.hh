@@ -3,9 +3,8 @@
 class Application {
 public:
     Application() :  frameCount(60), frameRate(12000), framePeriodClocks(0), bob(false) {}
-    Application(int frate, int fcount) :  frameCount(fcount), frameRate(frate),framePeriodClocks(0), bob(false) {}
     int frameCount, frameRate;
-    unsigned int framePeriodClocks;
+    unsigned int framePeriodClocks = 0;
     bool bob;
     bool shake = false;
     std::string PGMdirname;

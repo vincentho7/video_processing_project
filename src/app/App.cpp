@@ -52,7 +52,7 @@ void Application::processArguments(int argc, char* argv[]){
 
         else if (arg == "--bob") {
             bob = true; // Activer le mode bob
-            std::cout << "bOb is true" << std::endl;
+            std::cout << "bob deinterlaced is activated" << std::endl;
         }
         if (arg == "--shake") {
             shake = true;
