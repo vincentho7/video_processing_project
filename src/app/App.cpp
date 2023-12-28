@@ -38,7 +38,6 @@ void Application::processArguments(int argc, char* argv[]){
                 
             }
         }
-
         else if (arg == "--frame_period") {
             if (i + 1 < argc) {
                 framePeriodClocks = static_cast<unsigned int>(std::stoi(argv[i + 1]));
@@ -54,6 +53,10 @@ void Application::processArguments(int argc, char* argv[]){
         else if (arg == "--bob") {
             bob = true; // Activer le mode bob
             std::cout << "bOb is true" << std::endl;
+        }
+        if (arg == "--shake") {
+            shake = true;
+            frameRate *= 2;
         }
     }
     std::cout << "Frame Rate is set to: " << frameRate << " fps" << std::endl;
@@ -114,7 +117,10 @@ void Application::run(int argc, char* argv[]){
             std::vector<std::vector<uint8_t>> deinterlaced = RGBImage::bobDeinterlace(rgb_img.data, img_width, Yheight);
             int f = 0;
             for (auto& frame : deinterlaced) { // Traite chaque image désentrelacée
-                
+                if (f % 2 == 0 && shake == true) {
+                    f++;
+                    continue;
+                }
                 std::string imagePath = "image_" + std::to_string(j) + ".ppm"; 
                 std::ofstream output(imagePath, std::ios::binary);
                 // std::cout << frame.data.size() << std::endl;

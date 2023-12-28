@@ -13,10 +13,13 @@ sudo apt-get install libsdl2-image-2.0-0 libsdl2-image-dev
 ## COMPILATION
 mkdir build; cd build; cmake ..; make
 ## Execution:
+.tvid [--bob][--frame_period] 1000
+OR
+.tvid [--fps] 1000
 
 During execution : 
- - select pgm directory with pgm files of a video with mpeg2dec (see read me of mpeg2dec)
- - select ppm path (any paths to create files)
+ - input pgm directory with pgm files of a video with mpeg2dec (see read me of mpeg2dec)
+ - input ppm path (any paths to create files)
 
 # RAPPORT et Réponses à l'énoncé:
 ## Réponses
