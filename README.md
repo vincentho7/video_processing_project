@@ -10,12 +10,13 @@ TASKS Done :
 ## SETUPS COMMANDs
 sudo apt-get install libsdl2-2.0 libsdl2-dev
 sudo apt-get install libsdl2-image-2.0-0 libsdl2-image-dev 
+
 ## COMPILATION
 mkdir build; cd build; cmake ..; make
 ## Execution:
-.tvid [--bob][--frame_period] 1000
+.tvid [--bob][--frame_period] <number>
 OR
-.tvid [--fps] 1000
+.tvid [--fps] <number>
 
 During execution : 
  - input pgm directory with pgm files of a video with mpeg2dec (see read me of mpeg2dec)
