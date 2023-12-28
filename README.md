@@ -15,11 +15,11 @@ sudo apt-get install libsdl2-image-2.0-0 libsdl2-image-dev;
 ## COMPILATION
 mkdir build; cd build; cmake ..; make
 ## Execution:
-.tvid [--bob][--frame_period] <number>
+.tvid [--bob][--frame_period] NUMBER
 
 OR
 
-.tvid [--fps] <number>
+.tvid [--fps] NUMBER
 
 During execution : 
  - input pgm directory with pgm files of a video with mpeg2dec (see read me of mpeg2dec)
