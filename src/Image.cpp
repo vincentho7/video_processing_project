@@ -1,6 +1,6 @@
 #include "Image.hh"
 #include <cmath>
-
+#include <iostream>
 
 RGBImage RGBImage::yuv_to_rgb(const std::vector<unsigned char>& Y, const std::vector<unsigned char>& U,const std::vector<unsigned char>& V, int width, int height){
     RGBImage img(width, height);
@@ -45,7 +45,6 @@ std::vector<RGBImage> RGBImage::bobDeinterlace(const RGBImage& interlaced_rgb) {
 
     int height = interlaced_rgb.height;
     int width = interlaced_rgb.width;
-
     for (int y = 0; y < height; y += 2) { // Parcourir chaque ligne
         for (int x = 0; x < width; ++x) {
             for (int color = 0; color < 3; ++color) {
@@ -60,6 +59,29 @@ std::vector<RGBImage> RGBImage::bobDeinterlace(const RGBImage& interlaced_rgb) {
                 // Double chaque ligne impaire pour oddLines
                 oddLines.data[index_line] = interlaced_rgb.data[odd_index];
                 oddLines.data[next_line] = interlaced_rgb.data[odd_index];
+            }
+        }
+    }
+    return {evenLines, oddLines}; // Retourner les deux images désentrelacées
+}
+
+std::vector<std::vector<uint8_t>> RGBImage::bobDeinterlace(const std::vector<uint8_t>& rgb, int width, int height) {
+    // Créer deux vecteurs pour les images désentrelacées
+    std::vector<uint8_t> evenLines(3 * width * height);
+    std::vector<uint8_t> oddLines(3 * width * height);
+    
+    for (int y = 0; y < height; y += 2) { // Parcourir chaque ligne
+        for (int x = 0; x < width; ++x) {
+            for (int color = 0; color < 3; ++color) {
+                // Double chaque ligne paire pour evenLines
+                evenLines[6 * width * (y / 2) + 3 * x + color] = rgb[3 * width * y + 3 * x + color];
+                evenLines[6 * width * (y / 2) + 3 * width + 3 * x + color] = rgb[3 * width * y + 3 * x + color];
+                
+                // Double chaque ligne impaire pour oddLines
+                
+                oddLines[6 * width * (y / 2) + 3 * x + color] = rgb[3 * width * (y + 1) + 3 * x + color];
+                oddLines[6 * width * (y / 2) + 3 * width + 3 * x + color] = rgb[3 * width * (y + 1) + 3 * x + color];
+                
             }
         }
     }

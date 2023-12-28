@@ -7,6 +7,23 @@
 #include <iostream>
 #include <fstream>  
 #include <sstream> 
+#include <filesystem>
+
+#include <iostream>
+#include <filesystem>
+
+namespace fs = std::filesystem;
+
+// Function to create a directory and verify its existence
+void createAndVerifyDirectory(const std::string& dirName) {
+    // Create the directory if it doesn't exist
+    if(!fs::exists(dirName)) {
+        if(fs::create_directory(dirName)) {
+            std::cout << "Directory '" << dirName << "' created successfully.\n";
+        } 
+    }
+}
+
 void Application::processArguments(int argc, char* argv[]){
     //ARGUMENT PARSING
     for (int i = 1; i < argc; i++) {
@@ -36,6 +53,7 @@ void Application::processArguments(int argc, char* argv[]){
 
         else if (arg == "--bob") {
             bob = true; // Activer le mode bob
+            std::cout << "bOb is true" << std::endl;
         }
     }
     std::cout << "Frame Rate is set to: " << frameRate << " fps" << std::endl;
@@ -47,10 +65,11 @@ void Application::run(int argc, char* argv[]){
     int img_height = 0;
     int img_width = 0;
     int j = 0;
+    createAndVerifyDirectory("ppm");
 
     for(int i = 0; i < frameCount; ++i){
         Uint32 frameStart = SDL_GetTicks();
-        std::string fileName = PGMdirectory + std::to_string(i) + ".pgm";
+        std::string fileName = PGMdirname + std::to_string(i) + ".pgm";
         std::ifstream input(fileName, std::ios::binary);
 
         if (!input.is_open()) {
@@ -91,15 +110,20 @@ void Application::run(int argc, char* argv[]){
         RGBImage rgb_img = RGBImage::yuv_to_rgb(image, U,V, img_width, Yheight);
         
         if (bob) {
-            std::vector<RGBImage> deinterlaced = RGBImage::bobDeinterlace(rgb_img);
+            //std::vector<RGBImage> deinterlaced = RGBImage::bobDeinterlace(rgb_img);
+            std::vector<std::vector<uint8_t>> deinterlaced = RGBImage::bobDeinterlace(rgb_img.data, img_width, Yheight);
             int f = 0;
             for (auto& frame : deinterlaced) { // Traite chaque image désentrelacée
+                
                 std::string imagePath = "image_" + std::to_string(j) + ".ppm"; 
                 std::ofstream output(imagePath, std::ios::binary);
+                // std::cout << frame.data.size() << std::endl;
+                // output << "P6\n" << img_width << " " <<  Yheight << "\n255\n";
+                // output.write(reinterpret_cast<char*>(&frame.data[0]), frame.data.size());
+                // output.close();
                 output << "P6\n" << img_width << " " <<  Yheight << "\n255\n";
-                output.write(reinterpret_cast<char*>(&frame.data[0]), frame.data.size());
+                output.write(reinterpret_cast<char*>(&frame[0]), frame.size());
                 output.close();
-
                 SDL_Surface* ppmImage = IMG_Load(imagePath.c_str());
                 SDL_Texture* texture = SDL_CreateTextureFromSurface(sdlm.renderer, ppmImage);
                 SDL_FreeSurface(ppmImage);

@@ -11,4 +11,6 @@ public:
     std::vector<uint8_t> data;
     static RGBImage yuv_to_rgb(const std::vector<uint8_t>& Y, const std::vector<unsigned char>& U,const std::vector<unsigned char>& V, int width, int height);
     static std::vector<RGBImage> bobDeinterlace(const RGBImage& interlaced_rgb); 
+    static std::vector<std::vector<uint8_t>> bobDeinterlace(const std::vector<uint8_t>& rgb, int width, int height);
+
 };
